@@ -87,3 +87,40 @@ def test_comparisons_between_durations():
 
 def test_string_representation():
     assert str(Duration(minutes=4 * 60 + 30)) == '0430'
+
+
+def test_format_show_zeros_no_colon():
+    d1 = Duration(minutes=0)
+    expected_result = '0000'
+    assert d1.__format__('') == expected_result
+
+
+def test_format_show_zeros_with_colon():
+    d1 = Duration(minutes=0)
+    expected_result = '00:00'
+    assert d1.__format__(':') == expected_result
+
+
+def test_format_not_show_when_duration_is_zero():
+    d1 = Duration(minutes=0)
+    expected_result = ' '
+    assert d1.__format__('0<H') == expected_result
+
+
+def test_format_five_digits_with_colon():
+    d1 = Duration(minutes=123*60 + 40)
+    expected_result = '123:40'
+    assert d1.__format__(':') == expected_result
+
+
+def test_format_four_digits_with_colon():
+    d1 = Duration(minutes=20*60 + 30)
+    expected_result = '20:30'
+    assert d1.__format__('0<4:') == expected_result
+
+
+def test_format_four_digits_without_colon():
+    d1 = Duration(minutes=20*60 + 30)
+    expected_result = '2030'
+    assert d1.__format__('0<4') == expected_result
+
