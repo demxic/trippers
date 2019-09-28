@@ -78,19 +78,19 @@ class Duration(object):
                 '>' - Forces the field to be right-aligned within the available space.
         :       include the colon when it should be printed out
         visibility  :  Show or hide durations of 0 minutes.
-                        "T" - Show 00:00 or 0000 durations (This is the default.)
-                        "F" - Show '    ' instead.
+                        " " - Show 00:00 or 0000 durations (This is the default.)
+                        "H" - Show '    ' instead.
         """
 
         if format_spec == "":
             format_spec = self.default_format
         rs = duration_fmt.match(format_spec).groupdict()
+        rs['fill_align'] = rs['fill_align'] if rs['fill_align'] else ''
+        rs['size'] = rs['size'] if rs['size'] else ''
+        rs['colon'] = rs['colon'] if rs['colon'] else ''
         if rs['hide_if_zero'] and self.minutes == 0:
             basic_string = ' '
         else:
-            rs['fill_align'] = rs['fill_align'] if rs['fill_align'] else ''
-            rs['size'] = rs['size'] if rs['size'] else ''
-            rs['colon'] = rs['colon'] if rs['colon'] else ''
             hours, minutes = self.get_hours_and_minutes()
             minutes = str(minutes) if minutes > 9 else '0' + str(minutes)
             hours = str(hours) if hours > 9 else '0' + str(hours)
