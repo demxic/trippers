@@ -3,8 +3,8 @@ from datetime import datetime
 import pytest
 import pytz
 
-from domain.duration import Duration
-from domain.interval import Interval
+from tripper.domain import Duration
+from tripper.domain import Interval
 
 
 @pytest.fixture

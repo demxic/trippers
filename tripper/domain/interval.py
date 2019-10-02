@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from domain.duration import Duration
+from tripper.domain import Duration
 
 
 class Interval(object):

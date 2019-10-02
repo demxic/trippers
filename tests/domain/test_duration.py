@@ -1,7 +1,7 @@
 import datetime
 
 import pytest
-from domain.duration import Duration
+from tripper.domain import Duration
 
 
 def test_duration_init():
