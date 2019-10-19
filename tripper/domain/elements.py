@@ -1,11 +1,15 @@
 import datetime
 
+import pytz
+
 
 class Airport(object):
 
-    def __init__(self, code: str, timezone: datetime.tzinfo, viaticum=None):
+    def __init__(self, code: str, continent: str, tz_city: str, viaticum=None):
         self.code = code
-        self.timezone = timezone
+        self.continent = continent
+        self.tz_city = tz_city
+        self.timezone = pytz.timezone(continent+'/'+tz_city)
         self.viaticum = viaticum
 
     def to_dict(self):
