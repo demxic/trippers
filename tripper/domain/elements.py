@@ -1,21 +1,24 @@
+import datetime
+
+
 class Airport(object):
 
-    def __init__(self, iata_code: str, zone: str, viaticum=None):
-        self.iata_code = iata_code
-        self.zone = zone
+    def __init__(self, code: str, timezone: datetime.tzinfo, viaticum=None):
+        self.code = code
+        self.timezone = timezone
         self.viaticum = viaticum
 
     def to_dict(self):
-        return dict(iata_code=self.iata_code, zone=self.zone, viaticum=self.viaticum)
+        return dict(iata_code=self.code, zone=self.timezone, viaticum=self.viaticum)
 
     def __eq__(self, other: 'Airport'):
         return self.to_dict() == other.to_dict()
 
     def __str__(self):
-        return "{}".format(self.iata_code)
+        return "{}".format(self.code)
 
     def __repr__(self):
-        return "<Airport> {}".format(self.iata_code)
+        return "<Airport> {}".format(self.code)
 
 
 class Location(object):
