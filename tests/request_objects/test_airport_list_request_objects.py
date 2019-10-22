@@ -1,3 +1,4 @@
+import pytest
 
 from tripper.request_objects import airport_list_request_object as req
 
@@ -5,33 +6,55 @@ from tripper.request_objects import airport_list_request_object as req
 def test_build_airport_list_request_object_without_parameters():
     request = req.AirportListRequestObject()
 
-    assert request.airport_codes is None
+    assert request.filters is None
     assert bool(request) is True
 
 
-def test_build_airport_list_request_object_with_empty_list():
-    request = req.AirportListRequestObject([])
+def test_build_airport_list_request_object_from_empty_dict():
+    request = req.AirportListRequestObject.from_dict({})
 
-    assert len(request.airport_codes) == 0
+    assert request.filters is None
     assert bool(request) is True
 
 
-def test_build_airport_list_request_object_with_rejected_codes():
-    airport_codes = ['MEX', 'ACAP', 'GDL', 'MT', 'FCO', 'M4D', '679', 'AM$', 'T@M', 'T#&']
-    request = req.AirportListRequestObject.from_airports_code_list(airport_codes= airport_codes)
+def test_build_airport_list_request_object_with_empty_filters():
+    request = req.AirportListRequestObject(filters={})
+    assert request.filters == {}
+    assert bool(request) is True
 
+
+def test_build_airport_list_request_object_from_dict_with_empty_filters():
+    request = req.AirportListRequestObject.from_dict({'filters': {}})
+    assert request.filters == {}
+    assert bool(request) is True
+
+
+def test_build_airport_list_request_object_from_dict_with_filters_wrong():
+    request = req.AirportListRequestObject.from_dict({'filters': {'a': 1}})
     assert request.has_errors()
-    assert request.errors[0]['parameter'] == 'airport_codes'
-    assert request.errors[0]['airport_codes'] == ['ACAP', 'MT', 'M4D', '679', 'AM$', 'T@M', 'T#&']
+    assert request.errors[0]['parameter'] == 'filters'
     assert bool(request) is False
 
 
-def test_build_airport_list_request_object_with_accepted_codes():
-    airport_codes = ['MEX', 'ACA', 'GDL', 'MTY', 'FCO']
-    request = req.AirportListRequestObject.from_airports_code_list(airport_codes=airport_codes)
+def test_build_airport_list_request_object_from_dict_with_invalid_filters():
+    request = req.AirportListRequestObject.from_dict({'filters': 5})
+    assert request.has_errors()
+    assert request.errors[0]['parameter'] == 'filters'
+    assert bool(request) is False
 
-    assert request.airport_codes == airport_codes
+
+@pytest.mark.parametrize('key', ['continent__eq', 'tz_city__eq', 'codes_list'])
+def test_build_airport_list_request_object_accepted_filters(key):
+    filters = {key: 'America'}
+    request = req.AirportListRequestObject.from_dict({'filters': filters})
+    assert request.filters == filters
     assert bool(request) is True
 
 
-
+@pytest.mark.parametrize('key', ['code__lt', 'code__gt'])
+def test_build_airport_list_request_object_rejected_filters(key):
+    filters = {key: 1}
+    request = req.AirportListRequestObject.from_dict({'filters': filters})
+    assert request.has_errors()
+    assert request.errors[0]['parameter'] == 'filters'
+    assert bool(request) is False
