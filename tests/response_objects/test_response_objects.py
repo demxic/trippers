@@ -1,7 +1,7 @@
 import pytest
 
 from tripper.response_objects import response_objects as res
-from tripper.request_objects import airport_list_request_object as req
+from tripper.request_objects import station_list_request_object as req
 
 
 @pytest.fixture

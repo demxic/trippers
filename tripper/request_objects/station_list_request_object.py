@@ -25,7 +25,7 @@ class ValidRequestObject:
     def __bool__(self):
         return True
 
-class AirportListRequestObject(ValidRequestObject):
+class StationListRequestObject(ValidRequestObject):
     accepted_code_length = 3
     accepted_filters = ['continent__eq', 'tz_city__eq', 'codes_list']
 
@@ -34,7 +34,7 @@ class AirportListRequestObject(ValidRequestObject):
 
     @classmethod
     def from_dict(cls, adict):
-        invalid_req = InvalidRequestObject([])
+        invalid_req = InvalidRequestObject()
 
         if 'filters' in adict:
             if not isinstance(adict['filters'], collections.Mapping):

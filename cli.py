@@ -1,5 +1,5 @@
 from tripper.repository import memrepo as mr
-from tripper.use_cases import airport_list_use_case as uc
+from tripper.use_cases import station_list_use_case as uc
 
 airport_data = [
         {'code': 'MEX', 'zone': 'America/Mexico_City', 'viaticum': None},

@@ -1,4 +1,4 @@
-from tripper.domain.elements import Airport
+from tripper.domain.elements import Station
 
 
 class Memrepo(object):
@@ -7,4 +7,4 @@ class Memrepo(object):
         self.data = data
 
     def list(self):
-        return [Airport(**a) for a in self.data]
+        return [Station.from_dict(a) for a in self.data]
